@@ -5,15 +5,22 @@ const Header = () => (
   <header>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className='navbar-brand' to='/'>AppDividend</Link>
+
+        <Link className='navbar-brand' to='/'><i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} /></Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active"><Link className="nav-link" to='/'>Page 1</Link></li>
-            <li className="nav-item"><Link className="nav-link" to='/'>Page 2</Link></li>
-            <li className="nav-item"><Link className="nav-link" to='/'>Page 3</Link></li>
+            <li className="nav-item active">
+              <Link className="nav-link" to='/game'><i className="fa fa-fw fa-gamepad" style={{ fontSize: '1.75em' }} /></Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to='/history'><i className="fa fa-fw fa-history" style={{ fontSize: '1.75em' }} /></Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to='/player/profile'><i className="fa fa-fw fa-user" style={{ fontSize: '1.75em' }} /></Link>
+            </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />

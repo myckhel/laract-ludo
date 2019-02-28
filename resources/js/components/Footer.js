@@ -15,7 +15,7 @@ class Footer extends Component {
     }
 
     return (
-      <footer style={style} className="jumbotron bg-dark">
+      <footer style={style} className="bg-dark">
         <p>© Company 2017-2018</p>
       </footer>
     )

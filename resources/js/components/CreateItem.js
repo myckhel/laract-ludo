@@ -5,21 +5,22 @@ class CreateItem extends Component {
     super(props);
     this.state = {productName: '', productPrice: ''};
 
-    this.handleChange1 = this.handleChange1.bind(this);
-    this.handleChange2 = this.handleChange2.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleChange1(e){
+
+  componentDidMount = () => {
+    document.title = "Create Item"
+  }
+  handleChange1 = (e) => {
     this.setState({
       productName: e.target.value
     })
   }
-  handleChange2(e){
+  handleChange2 = (e) => {
     this.setState({
       productPrice: e.target.value
     })
   }
-  handleSubmit(e){
+  handleSubmit = (e) => {
     e.preventDefault();
     const products = {
       name: this.state.productName,

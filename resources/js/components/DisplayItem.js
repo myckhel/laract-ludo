@@ -12,6 +12,7 @@ class DisplayItem extends Component {
        this.load = this.load.bind(this);
      }
      componentDidMount(){
+       document.title = "Item List"
        this.load()
      }
 

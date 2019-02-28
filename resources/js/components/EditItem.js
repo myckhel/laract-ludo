@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 class EditItem extends Component {
-  constructor(props) {
+  constructor(props){
       super(props);
       this.state = {name: '', price: ''};
       this.handleChange1 = this.handleChange1.bind(this);
@@ -10,9 +10,10 @@ class EditItem extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount = () => {
     axios.get(`/api/items/${this.props.match.params.id}/edit`)
     .then(response => {
+      document.title = `Edit ${response.data.name}`
       this.setState({ name: response.data.name, price: response.data.price });
     })
     .catch(function (error) {
