@@ -48,5 +48,12 @@
     "bugs": {
         "url": "https://github.com/myckhel/backludo/issues"
     },
-    "homepage": "https://github.com/myckhel/backludo#readme"
+    "homepage": "https://github.com/myckhel/backludo#readme",
+    "dependencies": {
+        "react-router": "^4.3.1",
+        "react-router-dom": "^4.3.1",
+        "bootstrap": "^4.0.0",
+        "jquery": "^3.3.1",
+        "popper.js": "^1.12.9"
+    }
 }
