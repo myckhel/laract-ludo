@@ -8,6 +8,10 @@ class Die extends Component {
     }
   }
 
+  componentDidMount = () => {
+    console.log(this.props);
+  }
+
   roll = () => {
     this.props.onClick()
   }

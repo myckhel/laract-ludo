@@ -1,26 +1,14 @@
 require('./bootstrap');
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
-// assets
-import './assets/styles/font-awesome.min.css'
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
+import { Provider } from "react-redux";
+import configureStore from "./store/store";
 
-class App extends Component {
-      render () {
-        return (
-          <BrowserRouter>
-            <div>
-              <Header />
-              <Main />
-              <Footer />
-            </div>
-          </BrowserRouter>
-        )
-      }
-    }
+import App from './'
 
-render(<App />, document.getElementById('app'));
+render(
+  <Provider store={configureStore()}>
+    <App />
+  </Provider>
+, document.getElementById('app'));

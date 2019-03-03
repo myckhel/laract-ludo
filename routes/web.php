@@ -13,6 +13,9 @@
 Route::view('/', 'welcome');
 Route::view('/add-item', 'welcome');
 Route::view('/edit/{id?}', 'welcome');
+Route::view('/player/profile', 'welcome');
+Route::view('/game', 'welcome');
+Route::view('/history', 'welcome');
 
 // Route::get('/{path?}', function () {
 //     return view('welcome');

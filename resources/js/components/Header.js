@@ -12,7 +12,7 @@ const Header = () => (
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
+            <li className="nav-item">
               <Link className="nav-link" to='/game'><i className="fa fa-fw fa-gamepad" style={{ fontSize: '1.75em' }} /></Link>
             </li>
             <li className="nav-item">
@@ -20,6 +20,9 @@ const Header = () => (
             </li>
             <li className="nav-item">
               <Link className="nav-link" to='/player/profile'><i className="fa fa-fw fa-user" style={{ fontSize: '1.75em' }} /></Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to='/articles'><i className="fa fa-fw fa-sign-out" style={{ fontSize: '1.75em' }} /></Link>
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
@@ -29,13 +32,6 @@ const Header = () => (
         </div>
       </div>
     </nav>
-    <div className="jumbotron">
-      <div className="container">
-        <h1 className="display-3">Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
-      </div>
-    </div>
   </header>
 )
 

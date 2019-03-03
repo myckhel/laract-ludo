@@ -4,11 +4,11 @@ import Path from '../components/game/Path'
 import House from '../components/game/House'
 import CenterLudo from '../components/game/CenterLudo'
 
-const seeder = (num, color, refNo, parent) => {
+const seeder = (num, color, refNo, parent, belongsTo) => {
   let seeds = []
   let no = refNo
   for (let i = 0; i < num; i++) {
-    seeds[i] = <Seed onRef={ ref => (parent.seedRefs[no++] = ref)} color={color} />
+    seeds[i] = <Seed belongsTo={belongsTo} onRef={ ref => (parent.seedRefs[no++] = ref)} color={color} />
   }
   return seeds
 }
@@ -55,13 +55,13 @@ let printPaths = (col, row, pathMeta) => {
 export let Side = (props) => (
   <div className="c-5">
     <div className="r">
-      {pHouse(props.meta.seeds[0], props.meta.colorTop)}
+      {pHouse(props.seeds[0], props.colorTop)}
     </div>
     <div className="r">
-      {printPaths(6, 3, {position: props.meta.position, color: props.meta.colorTop} )}
+      {printPaths(6, 3, {position: props.position, color: props.colorTop} )}
     </div>
     <div className="r">
-      {pHouse(props.meta.seeds[1], props.meta.colorButtom)}
+      {pHouse(props.seeds[1], props.colorButtom)}
     </div>
   </div>
 )
@@ -72,7 +72,7 @@ export let Middle = (props) => (
       {printPaths(3, 6, {position: 'top', color: 'success'})}
     </div>
     <div className="r">
-      <CenterLudo rolled={props.meta.currentRoll} gameState={props.meta.gameState} roll={props.meta.roll} />
+      <CenterLudo rolled={props.currentRoll} gameState={props.gameState} roll={props.roll} />
     </div>
     <div className="r">
       {printPaths(3, 6, {position: 'buttom', color: 'danger'})}
@@ -82,7 +82,7 @@ export let Middle = (props) => (
 
 export const generateSeeds = (parent) => {
   return {
-    side1: [seeder(4, 'primary', 1, parent),seeder(4, 'danger', 5, parent)],
-    side2: [seeder(4, 'warning', 9, parent),seeder(4, 'success', 13, parent)],
+    side1: [seeder(4, 'primary', 1, parent, 1),seeder(4, 'danger', 5, parent, 1)],
+    side2: [seeder(4, 'warning', 9, parent, 2),seeder(4, 'success', 13, parent, 2)],
   }
 }
