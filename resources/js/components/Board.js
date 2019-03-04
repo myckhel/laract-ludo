@@ -2,21 +2,23 @@ import React, { Component } from 'react';
 // import Howl from '../assets/js/howler.core.min';
 import Player from '../helpers/Player'
 // require('../helpers/State')
-import {Side, Middle, generateSeeds} from '../helpers/Draw'
 import '../App.css';
+import {Draw} from '../helpers/Draw'
 
 import { connect } from "react-redux";
-import {initiateSeeds, diesRolled} from '../store/actions'
+import { initiateSeeds } from '../store/actions'
 
 class Board extends Component {
   constructor(props){
     super(props)
+    this.players = props.playersState
     this.seedRefs = [];
     this.state = {
       gameState: {
         ...props.gameState
       },
-      ...props.boardState
+      ...props.boardState,
+      ...props.playersState
     }
   }
 
@@ -27,7 +29,10 @@ class Board extends Component {
 
   componentDidMount = () => {
     // this.roll()
-    // console.log(this.state)
+    console.log(this.props)
+  }
+
+  componentDidUpdate = ( ) => {
   }
 
   componentWillUnmount = () => {
@@ -35,13 +40,8 @@ class Board extends Component {
    }
 
   init = () => {
-    // set players as the boards props
-    this.players = {
-      1: new Player(1),
-      2: new Player(2),
-    }
-
-    const seeds = generateSeeds(this)
+    const seeds = this.props.boardState.seeds
+    // this.props.seedReferences(this.props.boardState.seedRefs)
     this.props.initiateSeeds(seeds)
     this.setState({
       // seeds,
@@ -50,53 +50,7 @@ class Board extends Component {
     }, () => {
       this.players['1'].seeds = seeds.side1
       this.players['2'].seeds = seeds.side2
-      // draw the board
-      this.setState({
-        board: this.draw(seeds)
-      }, );
     })
-  }
-
-  draw = (seeds) => {
-    return (
-      <div className="r board">
-        <Side seeds={seeds.side1} colorTop={'primary'} colorButtom={'danger'} position={'left'} />
-        <Middle players={this.players} gameState={this.state.gameState} roll={this.roll}
-            currentRoll={this.state.currentRoll}
-         />
-       <Side seeds={seeds.side2} colorTop={'warning'} colorButtom={'success'} position={'right'} />
-      </div>
-    )
-  }
-
-  roll = (fn) => {
-    let rolled = this.players[this.state.turn].roll()
-    this.props.diesRolled(rolled)
-    this.setState( oldState => ({
-      // the current dice rolled for display
-      currentRoll: rolled,
-      // turn: oldState.turn === 1 ? 2 : 1,
-      gameState: {...oldState.gameState, roll: false},
-    }), ()=> {this.chooseSeed(fn)});
-  }
-
-  chooseSeed = (fn) => {
-    // this.players[this.state.turn].state.finshed = true
-    let num = this.players[this.state.turn].chooseNum()
-    this.setState( oldState => ({
-      gameState: {...oldState.gameState, chosenNum: num}
-    }) );
-
-    this.seedRefs.map((seed) => {
-      if (seed.belongsTo === this.state.turn) {
-        seed.selectAble(num)
-      }
-      return seed
-    })
-
-    this.setState(state => ({
-      gameState: {...state.gameState, roll:false}
-    }), fn);
   }
 
   won = () => {
@@ -109,7 +63,6 @@ class Board extends Component {
   }
 
   move = () => {
-
   }
 
   handleKeyPress = (event) => {
@@ -123,8 +76,10 @@ class Board extends Component {
     if (this.state.gameState.moving) {
 
     }
+    // console.log(this.props.boardState.seeds);
     return (
-        this.state.board
+      <Draw seeds={(()=>{console.log(this.props.boardState.seeds);return this.props.boardState.seeds})()} />
+        // this.props.boardState.board
     );
   }
 }
@@ -132,9 +87,7 @@ class Board extends Component {
 const mapStateToProps = state => { return { ...state } }
 const mapDispatchToProps = dispatch => ({
   rollAction: (bool) => dispatch(rollAction(bool)),
-  diesRolled: (nums) => dispatch(diesRolled(nums)),
   initiateSeeds: (seeds) => dispatch(initiateSeeds(seeds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (Board)
-// export default Board;

@@ -68454,9 +68454,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _helpers_Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/Player */ "./resources/js/helpers/Player.js");
-/* harmony import */ var _helpers_Draw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/Draw */ "./resources/js/helpers/Draw.js");
-/* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../App.css */ "./resources/js/App.css");
-/* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_App_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../App.css */ "./resources/js/App.css");
+/* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_App_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _helpers_Draw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers/Draw */ "./resources/js/helpers/Draw.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/actions */ "./resources/js/store/actions/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -68473,9 +68473,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -68508,21 +68508,19 @@ function (_Component) {
       document.addEventListener("keydown", _this.handleKeyPress, false);
     };
 
-    _this.componentDidMount = function () {// this.roll()
-      // console.log(this.state)
+    _this.componentDidMount = function () {
+      // this.roll()
+      console.log(_this.props);
     };
+
+    _this.componentDidUpdate = function () {};
 
     _this.componentWillUnmount = function () {
       document.removeEventListener("keydown", _this.handleKeyPress, false);
     };
 
     _this.init = function () {
-      // set players as the boards props
-      _this.players = {
-        1: new _helpers_Player__WEBPACK_IMPORTED_MODULE_1__["default"](1),
-        2: new _helpers_Player__WEBPACK_IMPORTED_MODULE_1__["default"](2)
-      };
-      var seeds = Object(_helpers_Draw__WEBPACK_IMPORTED_MODULE_2__["generateSeeds"])(_assertThisInitialized(_this));
+      var seeds = _this.props.boardState.seeds; // this.props.seedReferences(this.props.boardState.seedRefs)
 
       _this.props.initiateSeeds(seeds);
 
@@ -68532,81 +68530,8 @@ function (_Component) {
         player2: _this.players['2'].state
       }, function () {
         _this.players['1'].seeds = seeds.side1;
-        _this.players['2'].seeds = seeds.side2; // draw the board
-
-        _this.setState({
-          board: _this.draw(seeds)
-        });
+        _this.players['2'].seeds = seeds.side2;
       });
-    };
-
-    _this.draw = function (seeds) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "r board"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_Draw__WEBPACK_IMPORTED_MODULE_2__["Side"], {
-        seeds: seeds.side1,
-        colorTop: 'primary',
-        colorButtom: 'danger',
-        position: 'left'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_Draw__WEBPACK_IMPORTED_MODULE_2__["Middle"], {
-        players: _this.players,
-        gameState: _this.state.gameState,
-        roll: _this.roll,
-        currentRoll: _this.state.currentRoll
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_Draw__WEBPACK_IMPORTED_MODULE_2__["Side"], {
-        seeds: seeds.side2,
-        colorTop: 'warning',
-        colorButtom: 'success',
-        position: 'right'
-      }));
-    };
-
-    _this.roll = function (fn) {
-      var rolled = _this.players[_this.state.turn].roll();
-
-      _this.props.diesRolled(rolled);
-
-      _this.setState(function (oldState) {
-        return {
-          // the current dice rolled for display
-          currentRoll: rolled,
-          // turn: oldState.turn === 1 ? 2 : 1,
-          gameState: _objectSpread({}, oldState.gameState, {
-            roll: false
-          })
-        };
-      }, function () {
-        _this.chooseSeed(fn);
-      });
-    };
-
-    _this.chooseSeed = function (fn) {
-      // this.players[this.state.turn].state.finshed = true
-      var num = _this.players[_this.state.turn].chooseNum();
-
-      _this.setState(function (oldState) {
-        return {
-          gameState: _objectSpread({}, oldState.gameState, {
-            chosenNum: num
-          })
-        };
-      });
-
-      _this.seedRefs.map(function (seed) {
-        if (seed.belongsTo === _this.state.turn) {
-          seed.selectAble(num);
-        }
-
-        return seed;
-      });
-
-      _this.setState(function (state) {
-        return {
-          gameState: _objectSpread({}, state.gameState, {
-            roll: false
-          })
-        };
-      }, fn);
     };
 
     _this.won = function () {
@@ -68628,19 +68553,29 @@ function (_Component) {
       }
     };
 
+    _this.players = props.playersState;
     _this.seedRefs = [];
     _this.state = _objectSpread({
       gameState: _objectSpread({}, props.gameState)
-    }, props.boardState);
+    }, props.boardState, props.playersState);
     return _this;
   }
 
   _createClass(Board, [{
     key: "render",
     value: function render() {
-      if (this.state.gameState.moving) {}
+      var _this2 = this;
 
-      return this.state.board;
+      if (this.state.gameState.moving) {} // console.log(this.props.boardState.seeds);
+
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_Draw__WEBPACK_IMPORTED_MODULE_3__["Draw"], {
+        seeds: function () {
+          console.log(_this2.props.boardState.seeds);
+          return _this2.props.boardState.seeds;
+        }()
+      }) // this.props.boardState.board
+      ;
     }
   }]);
 
@@ -68666,16 +68601,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }(function (bool) {
       return dispatch(rollAction(bool));
     }),
-    diesRolled: function diesRolled(nums) {
-      return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_5__["diesRolled"])(nums));
-    },
     initiateSeeds: function initiateSeeds(seeds) {
       return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_5__["initiateSeeds"])(seeds));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(Board)); // export default Board;
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(Board));
 
 /***/ }),
 
@@ -69427,6 +69359,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Die__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Die */ "./resources/js/components/game/Die.js");
 /* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/actions */ "./resources/js/store/actions/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -69447,7 +69383,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
- // let State = require('../helpers/State')
 
 
 
@@ -69456,17 +69391,17 @@ var CenterLudo =
 function (_Component) {
   _inherits(CenterLudo, _Component);
 
-  function CenterLudo(_props) {
+  function CenterLudo(props) {
     var _this;
 
     _classCallCheck(this, CenterLudo);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CenterLudo).call(this, _props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CenterLudo).call(this, props));
 
-    _this.Throw = function (props) {
+    _this.Throw = function () {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return props.roll();
+          return _this.roll();
         },
         className: "btn throw"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Throw Now"));
@@ -69475,8 +69410,32 @@ function (_Component) {
     _this.componentWillMount = function () {// console.log(this.props.roll['1'].roll())
     };
 
+    _this.roll = function () {
+      var rolled = _this.props.playersState[_this.props.boardState.turn].roll();
+
+      _this.props.diesRolled(rolled);
+
+      _this.chooseSeed();
+    };
+
+    _this.chooseSeed = function () {
+      // this.players[this.state.turn].state.finshed = true
+      var num = _this.props.playersState[_this.props.boardState.turn].chooseNum(); // this.setState( oldState => ( { gameState: {...oldState.gameState, chosenNum: num } } ) );
+
+
+      _this.props.boardState.seedRefs.map(function (seed) {
+        if (seed.props.belongsTo === _this.props.boardState.turn) {
+          seed.selectAble(num);
+        }
+
+        return seed;
+      });
+
+      _this.props.rollAction(false);
+    };
+
     _this.state = {
-      roll: _props.gameState.roll
+      roll: props.gameState.roll
     };
     return _this;
   }
@@ -69484,25 +69443,17 @@ function (_Component) {
   _createClass(CenterLudo, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       // console.log(this.props);
       var dies = [react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Die__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        num: this.props.currentRoll[0],
+        num: this.props.boardState.currentRoll[0],
         key: 1
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Die__WEBPACK_IMPORTED_MODULE_1__["default"], {
         key: 2,
-        num: this.props.currentRoll[1]
+        num: this.props.boardState.currentRoll[1]
       })];
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "center-ludo size-3 bg-warning"
-      }, this.props.gameState.roll ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(this.Throw, {
-        roll: function roll() {
-          return _this2.props.roll(function () {
-            return _this2.props.rollAction(false);
-          });
-        }
-      }) : dies);
+      }, this.props.gameState.roll ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(this.Throw, null) : dies);
     }
   }]);
 
@@ -69510,16 +69461,16 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 var mapStateToProps = function mapStateToProps(state) {
-  return {
-    currentRoll: state.boardState.currentRoll,
-    gameState: state.gameState
-  };
+  return _objectSpread({}, state);
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     rollAction: function rollAction(bool) {
       return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_2__["rollAction"])(bool));
+    },
+    diesRolled: function diesRolled(nums) {
+      return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_2__["diesRolled"])(nums));
     }
   };
 };
@@ -69571,8 +69522,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Die).call(this, props));
 
-    _this.componentDidMount = function () {
-      console.log(_this.props);
+    _this.componentDidMount = function () {// console.log(this.props);
     };
 
     _this.roll = function () {
@@ -69747,6 +69697,8 @@ function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store/actions */ "./resources/js/store/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -69767,6 +69719,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var Seed =
 /*#__PURE__*/
 function (_Component) {
@@ -69780,15 +69734,34 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Seed).call(this, props));
 
     _this.componentDidMount = function () {
-      _this.props.onRef(_assertThisInitialized(_this));
+      _this.props.seedReferences(_assertThisInitialized(_this)); // this.props.onRef(this)
+
     };
 
-    _this.componentWiilUnmount = function () {
-      _this.props.onRef(undefined);
+    _this.componentDidUpdate = function (props) {// console.log('componentDidUpdate', props);
+    };
+
+    _this.seedTime = function () {// this.selectAble(this.props.boardState.currentRoll[0])
+      // this.props.removeSeed(this.props.belongsTo)
+      // this.props.seedTime = false
+    };
+
+    _this.componentWillReceiveProps = function (nextProps) {// if (!nextProps.seedTime) {
+      //   this.seedTime()
+      // }
+      // Object.keys(nextProps).filter(key => nextProps[key] !== this.props[key])
+      // .map(key => console.log('changed', key, 'from', this.props[key], 'to', nextProps[key]) )
+      // this.props.onRef(undefined)
     };
 
     _this.handleClick = function () {
       if (_this.state.selectAble) {
+        _this.props.removeSeed({
+          side: _this.props.belongsTo,
+          position: _this.props.seedPos
+        });
+
+        console.log(_this.props);
         console.log('i am moveable');
       }
     };
@@ -69799,7 +69772,6 @@ function (_Component) {
       });
     };
 
-    _this.belongsTo = props.belongsTo;
     _this.state = {
       inHouse: true,
       selectAble: false
@@ -69824,7 +69796,30 @@ function (_Component) {
   return Seed;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Seed);
+var mapStateToProps = function mapStateToProps(_ref) {
+  var boardState = _ref.boardState;
+  return {
+    boardState: boardState
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeSeed: function removeSeed(_ref2) {
+      var side = _ref2.side,
+          position = _ref2.position;
+      return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_1__["removeSeed"])({
+        side: side,
+        position: position
+      }));
+    },
+    seedReferences: function seedReferences(ref) {
+      return dispatch(Object(_store_actions__WEBPACK_IMPORTED_MODULE_1__["seedReferences"])(ref));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(Seed)); // export default Seed
 
 /***/ }),
 
@@ -69947,13 +69942,14 @@ var Profile = function Profile() {
 /*!**************************************!*\
   !*** ./resources/js/helpers/Draw.js ***!
   \**************************************/
-/*! exports provided: Side, Middle, generateSeeds */
+/*! exports provided: Side, Middle, Draw, generateSeeds */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Side", function() { return Side; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Middle", function() { return Middle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Draw", function() { return Draw; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateSeeds", function() { return generateSeeds; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -69973,12 +69969,11 @@ var seeder = function seeder(num, color, refNo, parent, belongsTo) {
 
   for (var i = 0; i < num; i++) {
     seeds[i] = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_game_Seed__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      seedId: no++,
+      seedPos: i,
       belongsTo: belongsTo,
-      onRef: function onRef(ref) {
-        return parent.seedRefs[no++] = ref;
-      },
       color: color
-    });
+    }); // onRef={ ref => (parent.seedRefs[no++] = ref)}
   }
 
   return seeds;
@@ -70059,7 +70054,6 @@ var Middle = function Middle(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "r"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_game_CenterLudo__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    rolled: props.currentRoll,
     gameState: props.gameState,
     roll: props.roll
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70068,6 +70062,22 @@ var Middle = function Middle(props) {
     position: 'buttom',
     color: 'danger'
   })));
+};
+var Draw = function Draw(props) {
+  console.log(props);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "r board"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Side, {
+    seeds: props.seeds.side1,
+    colorTop: 'primary',
+    colorButtom: 'danger',
+    position: 'left'
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Middle, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Side, {
+    seeds: props.seeds.side2,
+    colorTop: 'warning',
+    colorButtom: 'success',
+    position: 'right'
+  }));
 };
 var generateSeeds = function generateSeeds(parent) {
   return {
@@ -70189,7 +70199,7 @@ function (_Component) {
 /*!*********************************************!*\
   !*** ./resources/js/store/actions/index.js ***!
   \*********************************************/
-/*! exports provided: initiateSeeds, rollAction, diesRolled */
+/*! exports provided: initiateSeeds, rollAction, diesRolled, seedReferences, removeSeed */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70197,6 +70207,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initiateSeeds", function() { return initiateSeeds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rollAction", function() { return rollAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diesRolled", function() { return diesRolled; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "seedReferences", function() { return seedReferences; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeSeed", function() { return removeSeed; });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./resources/js/store/constants.js");
 
 function initiateSeeds(payload) {
@@ -70217,6 +70229,18 @@ function diesRolled(payload) {
     payload: payload
   };
 }
+function seedReferences(payload) {
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_0__["SEEDS_REFS"],
+    payload: payload
+  };
+}
+function removeSeed(payload) {
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SEED"],
+    payload: payload
+  };
+}
 
 /***/ }),
 
@@ -70224,7 +70248,7 @@ function diesRolled(payload) {
 /*!*****************************************!*\
   !*** ./resources/js/store/constants.js ***!
   \*****************************************/
-/*! exports provided: INITIATE_SEEDS, ROLL, ROLLED */
+/*! exports provided: INITIATE_SEEDS, ROLL, ROLLED, SEEDS_REFS, REMOVE_SEED */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70232,9 +70256,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INITIATE_SEEDS", function() { return INITIATE_SEEDS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROLL", function() { return ROLL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROLLED", function() { return ROLLED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SEEDS_REFS", function() { return SEEDS_REFS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_SEED", function() { return REMOVE_SEED; });
 var INITIATE_SEEDS = "INITIATE_SEEDS";
 var ROLL = "ROLL";
 var ROLLED = "ROLLED";
+var SEEDS_REFS = "SEEDS_REFS";
+var REMOVE_SEED = "REMOVE_SEED";
 
 /***/ }),
 
@@ -70249,9 +70277,13 @@ var ROLLED = "ROLLED";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants */ "./resources/js/store/constants.js");
+/* harmony import */ var _helpers_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/Player */ "./resources/js/helpers/Player.js");
+/* harmony import */ var _helpers_Draw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/Draw */ "./resources/js/helpers/Draw.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -70265,14 +70297,20 @@ var gameState = {
   moving: false,
   chosenNum: false
 };
+var seeds = Object(_helpers_Draw__WEBPACK_IMPORTED_MODULE_3__["generateSeeds"])();
 var boardState = {
   board: null,
+  seedRefs: [],
   players: 2,
   currentRoll: [0, 0],
   won: false,
-  turn: 1
+  turn: 1,
+  seeds: seeds
 };
-var playersState = {};
+var playersState = {
+  1: new _helpers_Player__WEBPACK_IMPORTED_MODULE_2__["default"](1),
+  2: new _helpers_Player__WEBPACK_IMPORTED_MODULE_2__["default"](2)
+};
 
 function gameRedux() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : gameState;
@@ -70302,6 +70340,17 @@ var boardRedux = function boardRedux() {
     case _constants__WEBPACK_IMPORTED_MODULE_1__["INITIATE_SEEDS"]:
       return merge(state, {
         seeds: action.payload
+      });
+
+    case _constants__WEBPACK_IMPORTED_MODULE_1__["SEEDS_REFS"]:
+      return merge(state, {
+        seedRefs: state.seedRefs.concat(action.payload)
+      });
+
+    case _constants__WEBPACK_IMPORTED_MODULE_1__["REMOVE_SEED"]:
+      state.seeds["side".concat(action.payload.side)][0].splice(0, action.payload.position);
+      return merge(state, {
+        seeds: state.seeds
       });
 
     default:
@@ -70339,18 +70388,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _reducers___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers/ */ "./resources/js/store/reducers/index.js");
 
- // const State = {
-//   gameState: {
-//     roll: true,
-//     moving: false,
-//     chosenNum: false,
-//   },
-//   board: null,
-//   players: 2,
-//   currentRoll: [],
-//   won: false,
-//   turn: 1,
-// }
+
 
 function configureStore() {
   return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers___WEBPACK_IMPORTED_MODULE_1__["default"]);

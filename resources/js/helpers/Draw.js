@@ -5,10 +5,10 @@ import House from '../components/game/House'
 import CenterLudo from '../components/game/CenterLudo'
 
 const seeder = (num, color, refNo, parent, belongsTo) => {
-  let seeds = []
-  let no = refNo
+  let seeds = [];  let no = refNo
   for (let i = 0; i < num; i++) {
-    seeds[i] = <Seed belongsTo={belongsTo} onRef={ ref => (parent.seedRefs[no++] = ref)} color={color} />
+    seeds[i] = <Seed seedId={no++} seedPos={i} belongsTo={belongsTo}  color={color} />
+    // onRef={ ref => (parent.seedRefs[no++] = ref)}
   }
   return seeds
 }
@@ -20,8 +20,7 @@ let pHouse = (seeds, color) => (
 )
 
 let printPaths = (col, row, pathMeta) => {
-  let cols = []
-  let key = 0
+  let cols = [];  let key = 0
   for (let i = 0; i < row; i++) {
     let row = []
     for (let ii = 0; ii < col; ii++) {
@@ -72,13 +71,24 @@ export let Middle = (props) => (
       {printPaths(3, 6, {position: 'top', color: 'success'})}
     </div>
     <div className="r">
-      <CenterLudo rolled={props.currentRoll} gameState={props.gameState} roll={props.roll} />
+      <CenterLudo gameState={props.gameState} roll={props.roll} />
     </div>
     <div className="r">
       {printPaths(3, 6, {position: 'buttom', color: 'danger'})}
     </div>
   </div>
 )
+
+export const Draw = (props) => {
+  console.log(props);
+  return (
+    <div className="r board">
+      <Side seeds={props.seeds.side1} colorTop={'primary'} colorButtom={'danger'} position={'left'} />
+      <Middle />
+     <Side seeds={props.seeds.side2} colorTop={'warning'} colorButtom={'success'} position={'right'} />
+    </div>
+  )
+}
 
 export const generateSeeds = (parent) => {
   return {

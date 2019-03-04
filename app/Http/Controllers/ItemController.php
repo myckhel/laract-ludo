@@ -12,12 +12,7 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        $items = Item::all();
-        return response()->json($items);
-    }
+    public function index(){ return Item::all(); }
 
     /**
      * Show the form for creating a new resource.
@@ -37,11 +32,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $item = new Item([
-          'name' => $request->get('name'),
-          'price' => $request->get('price')
-        ]);
+        $item = Item::create([ 'name' => $request->get('name'), 'price' => $request->get('price') ]);
         $item->save();
         return response()->json('Successfully added');
     }
@@ -63,12 +54,7 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-        $item = Item::find($id);
-        return response()->json($item);
-    }
+    public function edit($id) { return Item::find($id); }
 
     /**
      * Update the specified resource in storage.
@@ -79,7 +65,6 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $item = Item::find($id);
         $item->name = $request->get('name');
         $item->price = $request->get('price');
@@ -97,7 +82,7 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
       $item->delete();
 
       return response()->json('Successfully Deleted');
